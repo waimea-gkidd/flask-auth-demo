@@ -1,0 +1,37 @@
+{#=====================================================
+  Help page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h2>Sign up</h2>
+
+    <form method="post" action="/user">
+      <label>
+        forename
+        <input type="text" name="forename" required> 
+      </label>
+
+      <label>
+        surname
+        <input type="text" name="surname" required> 
+      </label>
+
+      <label>
+        username
+        <input type="text" name="username" required> 
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password" required> 
+      </label>
+
+      <button>Submit</button>
+    </form>
+
+{% endblock %}
+
