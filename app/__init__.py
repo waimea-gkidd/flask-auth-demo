@@ -64,6 +64,46 @@ def add_user():
         return redirect("pages/login.jinja")
 
 
+#-----------------------------------------------------------
+# login page
+#-----------------------------------------------------------
+@app.get("/login")
+def show_login_form():
+    return render_template("pages/login.jinja")
+#-----------------------------------------------------------
+# login post
+#-----------------------------------------------------------
+@app.post("/login")
+def login_user():
+    username = request.form.get('username', '').strip().lower()
+    password = request.form.get('password', '').strip()
+
+    with connect_db() as db:
+        sql = """
+            SELECT id, forename, surname, password_hash
+            FROM users
+            WHERE username=?
+        """
+        params = (username,)
+        user = db.execute(sql, params).fetchone()
+
+        if not user:
+            flash(f"Unknown user", "error")
+            return redirect("/login")
+
+        if not check_password_hash(user["pass_hash"], password):
+            flash(f"Incorrect password", "error")
+            return redirect("/login")
+
+        session["logged_in"] = True
+        session["user"] = {
+            "username": username,
+            "forename": user["forename"],
+            "surname":  user["surname"],
+        }
+
+        flash("Login successful", "success")
+        return redirect("/")
 
 #-----------------------------------------------------------
 # Creature list page - Show all the creatures

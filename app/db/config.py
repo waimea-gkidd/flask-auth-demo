@@ -35,7 +35,26 @@ class UserTable:
 
 # Add more table classes here...
 
+class MessageTable:
 
+    NAME = "messages"
+
+    SCHEMA = """
+        CREATE TABLE users (
+            id      INTEGER PRIMARY KEY AUTOINCREMENT,
+            forename TEXT NOT NULL,
+            user_id INTERGER NOT NULL,
+            title TEXT NOT NULL,
+            body TEXT NOT NULL, 
+
+            FOREIN KEY(user_id) REFERENCES user(id)
+        )
+    """
+
+    SEED_DATA = """
+        INSERT INTO messages (user_id, title, body)
+        VALUES (1, "Yo!", "First")
+    """
 
 #----------------------------------------------------------------------------
 # Table registry
