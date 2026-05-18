@@ -33,8 +33,14 @@
 
         <nav>
             <a href="/">Home</a>
-            <a href="/user/new">Signup</a>
-            <a href="/login">Login</a>
+
+            {% if session["logged_in"] %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/user/new">Signup</a>
+                <a href="/login">Login</a>
+            {% endif %}
+
             <a href="/help">Help</a>
         </nav>
     </header>

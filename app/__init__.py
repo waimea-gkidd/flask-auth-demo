@@ -70,6 +70,17 @@ def add_user():
 @app.get("/login")
 def show_login_form():
     return render_template("pages/login.jinja")
+
+#-----------------------------------------------------------
+# logOUT HANDLING
+#-----------------------------------------------------------
+@app.get("/logout")
+def logout_user():
+    session.clear()
+    flash(f"You have been logged out", "success")
+    return redirect("/")
+
+
 #-----------------------------------------------------------
 # login post
 #-----------------------------------------------------------
@@ -91,7 +102,7 @@ def login_user():
             flash(f"Unknown user", "error")
             return redirect("/login")
 
-        if not check_password_hash(user["pass_hash"], password):
+        if not check_password_hash(user["password_hash"], password):
             flash(f"Incorrect password", "error")
             return redirect("/login")
 
