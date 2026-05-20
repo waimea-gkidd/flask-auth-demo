@@ -1,0 +1,29 @@
+{#=====================================================
+  Welcome page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h1 class="welcome">Post a new message!</h1>
+
+    <form method="post" action="/message">
+    <h3>New Message</h3>
+
+    <label>
+        Title
+        <input name="title" type="text" placeholder="e.g. Water garage" required>
+    </label>
+
+    <label>
+        Body
+        <textarea name="body" placeholder="e.g. Where are my sunglasses?" required></textarea>
+    </label>
+
+
+    <button>Add Message</button>
+</form>
+
+{% endblock %}

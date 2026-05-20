@@ -115,6 +115,56 @@ def login_user():
 
         flash("Login successful", "success")
         return redirect("/")
+    
+#-----------------------------------------------------------
+# New Message
+#-----------------------------------------------------------
+@app.get("/message/new")
+def show_message_form():
+    return render_template("pages/message.jinja")
+
+#-----------------------------------------------------------
+# Show Message Form
+#-----------------------------------------------------------
+@app.get("/message")
+def show_messages():
+    return render_template("pages/message.jinja")
+#-----------------------------------------------------------
+# Post Message
+#-----------------------------------------------------------
+@app.post("/message")
+def post_message():
+
+    # Get form data
+    title = request.form.get('title', '').strip()
+    body = request.form.get('body', '').strip()
+
+    # Validate data
+    if not title:
+        flash("Title is required", "error")
+        return redirect("/message")
+
+    if len(title) > 40:
+        flash("Title is too long (max 40 chars)", "error")
+        return redirect("/message")
+
+    # Escape text inputs
+    title = html.escape(title)
+    body = html.escape(body)
+
+    user_id =session["user"]["id"]
+
+    # Add to database
+    with connect_db() as db:
+        sql = """
+            INSERT INTO messages (title, body, user_id)
+            VALUES (?, ?, ?)
+        """
+        params = (title, body, user_id)
+        db.execute(sql, params)
+
+    flash(f"Message added")
+    return redirect("/")
 
 #-----------------------------------------------------------
 # Creature list page - Show all the creatures
