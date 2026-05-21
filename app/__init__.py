@@ -117,22 +117,16 @@ def login_user():
         return redirect("/")
     
 #-----------------------------------------------------------
-# New Message
+# New Message form
 #-----------------------------------------------------------
-@app.get("/message/new")
-def show_message_form():
-    return render_template("pages/message.jinja")
+@app.get("/message_form")
+def show_message():
+    return render_template("pages/message_form.jinja")
 
 #-----------------------------------------------------------
-# Show Message Form
+# Post (send) Message
 #-----------------------------------------------------------
-@app.get("/message")
-def show_messages():
-    return render_template("pages/message.jinja")
-#-----------------------------------------------------------
-# Post Message
-#-----------------------------------------------------------
-@app.post("/message")
+@app.post("/message_form")
 def post_message():
 
     # Get form data
@@ -152,7 +146,7 @@ def post_message():
     title = html.escape(title)
     body = html.escape(body)
 
-    user_id =session["user"]["id"]
+    user_id = session["user"]["id"]
 
     # Add to database
     with connect_db() as db:
@@ -165,6 +159,22 @@ def post_message():
 
     flash(f"Message added")
     return redirect("/")
+
+
+#-----------------------------------------------------------
+# messages 
+#-----------------------------------------------------------
+@app.get("/messages")
+def show_all_messages():
+    with connect_db() as db:
+        sql = """
+            SELECT user_id, title, body
+            FROM messages
+        """
+        params = ()
+        messages = db.execute(sql, params).fetchall()
+
+        return render_template("pages/messages.jinja", messages=messages)
 
 #-----------------------------------------------------------
 # Creature list page - Show all the creatures

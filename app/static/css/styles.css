@@ -4,39 +4,45 @@
 ===========================================================*/
 
 :root {
+    --base-col:         #305274;
+    --accent-col:       #e43749;
 
-    --base-col:         #324d63;
-    --accent-col:        rgb(81, 41, 99);
-
-    --base-col-lighter: color-mix(in srgb,  var(--base-col), #fff 50%);
-    --base-col-light:   color-mix(in srgb,  var(--base-col), #fff 20%);
-    --base-col-dark:    color-mix(in srgb,  var(--base-col), #000 20%);
-    --base-col-darker:   color-mix(in srgb,  var(--base-col), #000 50%);
+    --base-col-lighter: color-mix(in srgb, var(--base-col), #fff 70%);
+    --base-col-light:   color-mix(in srgb, var(--base-col), #fff 60%);
+    --base-col-dark:    color-mix(in srgb, var(--base-col), #000 30%);
+    --base-col-darker:  color-mix(in srgb, var(--base-col), #000 60%);
+    --base-col-darkest: color-mix(in srgb, var(--base-col), #000 70%);
 
     --text-col:         #000;
     --text-col-inv:     #fff;
 
     --page-bg:          var(--base-col-lighter);
-    --panel-bg:         var(--base-col-light);
 
-    --border-col:       var(--base-col-dark);
+    --panel-bg:         var(--base-col-light);
+    --panel-header-bg:  var(--base-col-dark);
+
+    --border-col:       var(--base-col-darker);
+    --border-radius:    0.5rem;
+
+    --drop-shadow:      0 0.25rem 1rem #0004;
 
     --link-col:         var(--accent-col);
 
-   
-    --button-col:        var(--accent-col);
     --button-bg:        var(--accent-col);
+    --button-col:       var(--text-col-inv);
+    --button-shadow:    0 0.1rem 0.2rem #0004;
+    --button-shadow-up: 0 0.2rem 0.3rem #0008;
 
 
+    --padding-lg:       2rem;
     --padding:          1rem;
     --padding-sm:       0.5rem;
 
+    --gap-lg:           2rem;
     --gap:              1rem;
+    --gap-sm:           0.5rem;
 
-    --content-width:     60rem;
-
-
-   
+    --content-width:    60rem;
 }
 
 
@@ -45,7 +51,6 @@
 html {
     background-color: var(--page-bg);
     color: var(--text-col);
-
     font-family: system-ui, sans-serif;
 }
 
@@ -56,9 +61,22 @@ body {
 
 
 main {
-    max-width: 60rem;
+    max-width: var(--content-width);
     margin-inline: auto;
     padding: var(--padding);
+
+    .logo.home-page {
+        width: 10rem;
+        height: 10rem;
+        display: block;
+        margin: var(--gap-lg) auto;
+    }
+
+    .button.home-page {
+        display: block;
+        width: fit-content;
+        margin: var(--gap-lg) auto;
+    }
 }
 
 
@@ -66,9 +84,9 @@ main {
 
 body > header {
     display: flex;
-    gap: 1rem;
+    gap: var(--gap);
     align-items: center;
-    padding: 1rem;
+    padding: var(--padding);
 
     .logo {
         width: 2rem;
@@ -77,12 +95,16 @@ body > header {
 
     h1 {
         font-size: 1.5rem;
+    }
+
+    .greeting {
         flex: 1;
+        text-align: center;
     }
 
     nav {
         display: flex;
-        gap: 1rem;
+        gap: var(--gap);
 
         a {
             color: var(--link-col);
@@ -107,32 +129,105 @@ main > h2 {
 }
 
 
-/* Creature List --------------------------------------------------*/
 
-#creatures {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
+/* Forms --------------------------------------------------*/
 
-    @media (width >= 500px) {
-        grid-template-columns: 1fr 1fr;
-    }
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    width: 100%;
 
-    @media (width >= 800px) {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+    max-width: 30rem;
+    margin-inline: auto;
+    padding: var(--padding);
 
-    .creature {
-        padding: 1rem;
+    background-color: var(--panel-bg);
+    border: 3px solid var(--border-col);
+    border-radius: var(--border-radius);
+    box-shadow: var(--drop-shadow);
 
-        background-color: var(--back-col-dark);
-        border: 2px solid var(--border-col);
-        border-radius: 0.5rem;
+    label {
+        width: 100%;
 
-        h3 {
-            color: var(--accent-col);
+        input, textarea {
+            width: 100%;
+            border: 3px solid var(--border-col);
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
         }
     }
 }
 
 
+/* Links / buttons --------------------------------------------------*/
+
+.button, button {
+    background-color: var(--accent-col);
+    border: 3px solid var(--border-col);
+    box-shadow: var(--button-shadow);
+    color: var(--text-col-inv);
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    transition: all 250ms;
+
+    &:hover {
+        filter: brightness(1.1);
+        box-shadow: var(--button-shadow-up);
+    }
+}
+
+
+/* Lucide icons --------------------------------------------------*/
+
+[data-lucide] {
+    height: 1.25em;
+    width:  1.25em;
+}
+
+
+/* Creature List --------------------------------------------------*/
+
+#message-list {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    margin-block: var(--gap-lg);
+
+    .message-item {
+        background-color: var(--panel-bg);
+        border: 3px solid var(--border-col);
+        border-radius: 0.5rem;
+        box-shadow: var(--drop-shadow);
+        overflow: hidden;
+
+        header {
+            background-color: var(--panel-header-bg);
+            border-bottom: 3px solid var(--border-col);
+            padding: var(--padding-sm) var(--padding);
+
+            h3 {
+                font-size: 1.5rem;
+                color: var(--text-col-inv);
+            }
+        }
+
+        .message-body {
+            padding: var(--padding);
+        }
+
+        footer {
+            padding: var(--padding);
+            display: flex;
+            gap: var(--gap);
+            align-items: center;
+            font-size: 0.8rem;
+
+            .author {
+                text-align: right;
+                flex: 1;
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{#=====================================================
+  message List page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h2>List of Messages</h2>
+
+    <section id="messages">
+
+        {% for message in messages %}
+
+            <div class="message">
+                <h3>{{ message.title }}</h3>
+                <p>{{ message.body }}</p>
+                
+            </div>
+
+        {% else %}
+
+            <p>No messages!</p>
+
+        {% endfor %}
+
+    </section>
+
+{% endblock %}
